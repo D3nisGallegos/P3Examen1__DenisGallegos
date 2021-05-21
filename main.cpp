@@ -182,7 +182,7 @@ int menu(){
 	int opcion = 0; 
 	while (opcion != 4){
 		cout << "--------MENU--------" <<endl;
-		cout << " 1) Ejercicio 1. "<<endl;
+		cout << " 1) . "<<endl;
 		cout << " 2) Ejercicio 2. " <<endl; 
 		cout << " 3) Ejercicio 3. " <<endl; 
 		cout << " 4) Salir. " <<endl; 

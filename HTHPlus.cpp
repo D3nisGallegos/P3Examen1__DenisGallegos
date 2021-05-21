@@ -1,6 +1,9 @@
 #include "HTHPlus.h"
 #include <string>
 #include <cstring>
+#include <iostream>
+
+using namespace std; 
 
 HTHPlus::HTHPlus(){
 
@@ -55,9 +58,76 @@ void HTHPlus :: imprimirporvaloracion(){
 
 void HTHPlus :: imprimirporstring(string buscar){
 	for (int c = 0; c < 6;c++){
-		
+		Pelicula* peli = peliculas [c];
+		string tit = peli->GETtitulo()+""; 
+		if (tit.find(buscar) == true){
+			cout << peli->tostring() << "/5" <<endl; 
+		}
 	}
 }
+
+void HTHPlus :: agregarpeli(Pelicula* pelicula){
+	peliculas.push_back(pelicula);
+	
+}
+
+void HTHPlus :: eliminarpeli(int indice){
+	for (int c = 0; c < peliculas.size();c++){
+		Pelicula* peli = peliculas [c];
+		if (c == indice){
+			delete peli; 
+			peliculas.erase(peliculas.begin()+indice - 1);
+		}
+	}
+}
+
+void HTHPlus :: modificarpeli(int indice){
+	int opcion = 0; 
+	Pelicula* peli = peliculas [indice];
+	while(opcion != 5){
+		cout << "--------Modificar--------" <<endl;
+		cout << " 1) Modificar titulo. "<<endl;
+		cout << " 2) Modificar director." <<endl; 
+		cout << " 3) Modificar genero." <<endl; 
+		cout << " 4) Modificar valoracion." <<endl;
+		cout << " 5) Salir." <<endl;
+		cout << "---------------------" <<endl; 
+		cout << " Ingrese la opcion: " <<endl; 
+		cin>> opcion; 
+		switch (opcion){
+			case 1:
+				{
+				string titulo = ""; 
+				cout << "Ingrese el nuevo titulo: " <<endl; 
+				getline(titulo, cin.ignore());
+				peli->SETtitulo(titulo);
+				break; 
+				}
+			case 2: 
+				{
+				string titulo = ""; 
+				cout << "Ingrese el nuevo director: " <<endl; 
+				getline(titulo, cin.ignore());
+				peli->SETdirector(titulo);
+				break; 
+				}
+			case 3:
+				{
+				string titulo = ""; 
+				cout << "Ingrese el nuevo genero: " <<endl; 
+				getline(titulo, cin.ignore());
+				peli->SETgenero(titulo);
+				break; 
+				}
+			case 4: 
+				{
+				peli->calcularvaloracion();
+				cout << "Valoracion nueva establecida. " << endl;
+				break;
+				}
+		}//Fin del switch de opciones modificar.
+	}//Fin del while menu modificar.
+}  
 
 HTHPlus::~HTHPlus(){
 
