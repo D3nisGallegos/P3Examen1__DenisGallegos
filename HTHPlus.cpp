@@ -12,7 +12,7 @@ HTHPlus::HTHPlus(){
 void HTHPlus :: imprimirtodas(){
 	for (int c = 0; c < peliculas.size();c++){
 		Pelicula* peli = peliculas [c];
-		cout << "[" << c << "] " << peli->GETtitulo() << " | " << peli->GETdirector() << " | " << peli->GETgenero() << " | " << peli->GETvaloracion() << "/5" <<endl; 
+		cout << "[" << c << "] " << peli->tostring() << "/5" << endl; 
 	}
 }
 
@@ -45,7 +45,7 @@ void HTHPlus :: imprimirporgenero(){
 }
 
 void HTHPlus :: imprimirporvaloracion(){
-	for (int c = 0; c < 6;c++){
+	for (int c = 5; c <= 0;c--){
 		cout << "[valoracion: " << c <<"]"<<endl;  
 		for (int j = 0; j < peliculas.size();j++){
 			Pelicula* peli = peliculas [j];
@@ -81,54 +81,39 @@ void HTHPlus :: eliminarpeli(int indice){
 	}
 }
 
-void HTHPlus :: modificarpeli(int indice){
-	int opcion = 0; 
-	Pelicula* peli = peliculas [indice];
-	while(opcion != 5){
-		cout << "--------Modificar--------" <<endl;
-		cout << " 1) Modificar titulo. "<<endl;
-		cout << " 2) Modificar director." <<endl; 
-		cout << " 3) Modificar genero." <<endl; 
-		cout << " 4) Modificar valoracion." <<endl;
-		cout << " 5) Salir." <<endl;
-		cout << "---------------------" <<endl; 
-		cout << " Ingrese la opcion: " <<endl; 
-		cin>> opcion; 
-		switch (opcion){
-			case 1:
-				{
-				string titulo = ""; 
-				cout << "Ingrese el nuevo titulo: " <<endl; 
-				getline(titulo, cin.ignore());
-				peli->SETtitulo(titulo);
-				break; 
-				}
-			case 2: 
-				{
-				string titulo = ""; 
-				cout << "Ingrese el nuevo director: " <<endl; 
-				getline(titulo, cin.ignore());
-				peli->SETdirector(titulo);
-				break; 
-				}
-			case 3:
-				{
-				string titulo = ""; 
-				cout << "Ingrese el nuevo genero: " <<endl; 
-				getline(titulo, cin.ignore());
-				peli->SETgenero(titulo);
-				break; 
-				}
-			case 4: 
-				{
-				peli->calcularvaloracion();
-				cout << "Valoracion nueva establecida. " << endl;
-				break;
-				}
-		}//Fin del switch de opciones modificar.
-	}//Fin del while menu modificar.
+void HTHPlus :: modificarpeli(int indice, int opcion, string x){
+	Pelicula* peli = peliculas.at(indice);
+	switch (opcion){
+		case 1:
+			{
+			peli->SETtitulo(x);
+			break;
+			}
+		case 2:
+			{
+			peli->SETdirector(x);
+			break;
+			}
+		case 3:
+			{
+			peli->SETgenero(x);
+			break;
+			}
+		case 4:
+			{
+			peli->calcularvaloracion();
+			cout << "Valoracion nueva establecida. " << endl;
+			break;
+			}
+	}//Fin del switch de opciones modificar.
 }  
 
-HTHPlus::~HTHPlus(){
+vector <Pelicula* > HTHPlus :: GETpeliculas(){
+	return peliculas; 
+}
 
+HTHPlus::~HTHPlus(){
+	for (int c =0; c < peliculas.size();c++){
+		delete peliculas [c];
+	}
 }

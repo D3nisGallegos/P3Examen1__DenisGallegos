@@ -16,7 +16,7 @@ class HTHPlus{
 		void imprimirporvaloracion();
 		void agregarpeli(Pelicula* ); 
 		void eliminarpeli(int );
-		void modificarpeli(int );
+		void modificarpeli(int, int, string);
 		vector <Pelicula* > GETpeliculas();
 		~HTHPlus();
 };

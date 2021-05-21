@@ -1,197 +1,166 @@
 #include <iostream>
+#include "Pelicula.h"
+#include "HTHPlus.h"
+#include <string>
+#include <cstring>
+#include <vector>
 
 using namespace std; 
 
 int menu();
 
 int main(int argc, char** argv) {
-	/*
+	HTHPlus* cine = new HTHPlus();
 	int opcion = menu();
-	while (opcion != 4){
+	while (opcion != 8){
 		switch (opcion){
 			case 1:
 				{
-				cout << "-------EJERCICIO 1------" <<endl; 
-				int indice = 0;
-				bool v = false; 
-				while (v == false){
-					cout << " Ingrese la cantidad de elementos del arreglo: (entero mayor a 0)" <<endl;
-					cin >> indice;  
-					if (indice <= 0){
-						cout << "Indice ingresado invalido." <<endl; 
-					}else {
-						v = true; 
-					}
-				}//Fin del while.
-				char* arreglo; 
-				arreglo = new char[indice];
-				char caracter;  
-				for (int c =0; c < indice;c++){
-					cout << "Ingrese el caracter para el elemento " << c << ":" <<endl; 
-					cin >> caracter; 
-					arreglo [c] = caracter; 
-				}
-				char* nuevo;
-				nuevo = arreglodescomprimido(arreglo, indice);
-				delete[] arreglo;
-				delete [] nuevo; 
-				cout << "-------FINAL EJERCICIO 1------" <<endl; 
+				string titulo = "", director = "", genero = ""; 
+				cout << "-------AGREGAR------" <<endl; 
+				cout << "Ingrese el titulo de la pelicula:" <<endl; 
+				getline(cin, titulo);
+				cout << "Ingrese el director de la pelicula:" <<endl; 
+				getline(cin, director);
+				cout << "Ingrese el genero de la pelicula:" <<endl; 
+				getline(cin, genero);
+				cout << genero;
+				Pelicula* peli = new Pelicula(titulo, director, genero);
+				cine->agregarpeli(peli);
+				cout << "-------FINAL AGREGAR------" <<endl; 
 				break; 
 				}
 			case 2:
 				{
-				cout << "-------EJERCICIO 2------" <<endl; 
-				int filas = 0; 
-				int columnas = 0; 
-				int piedras =0;
+				cout << "-------MODIFICAR------" <<endl; 
+				cout << "-------TODAS LAS PELICULAS--------" <<endl;
+				cine->imprimirtodas();
 				bool v = false; 
+				int indice = 0; 
 				while (v == false){
-					cout << " Ingrese la cantidad de filas: (entero mayor a 0)" <<endl;
-					cin >> filas;  
-					cout << " Ingrese la cantidad de columnas: (entero mayor a 0)" <<endl;
-					cin >> columnas; 
-					cout << " Ingrese la cantidad de obstaculos: (entero mayor a 0)" <<endl;
-					cin >> piedras; 
-					if (filas <= 0 || columnas <= 0 || (piedras > (filas * columnas))){
-						cout << "Valores ingresados invalidos." <<endl; 
+					cout << "---------------------" <<endl; 
+					cout << " Ingrese el indice de la pelicula a modificar: " <<endl;
+					cin >> indice;
+					cin.ignore(); 
+					if (indice < 0 || indice >= cine->GETpeliculas().size()){
+						
 					}else {
 						v = true; 
 					}
-				}//Fin del while.
-				char** matriz; 
-				matriz = crearmatriz(filas, columnas, piedras);
-				for(int i = 0; i<filas;i++){
-					if(matriz[i]){
-						delete[] matriz[i];
-						matriz[i] = 0; 
+				}
+				Pelicula* peli = cine->GETpeliculas().at(indice);
+				cout << "Ha decidido modificar la pelicula: " << peli->tostring() << "/5" <<endl;
+				bool v2 = false; 
+				int opcion2 = 0; 
+				while(v2 == false){
+					cout << "--------Modificar--------" <<endl;
+					cout << " 1) Modificar titulo. "<<endl;
+					cout << " 2) Modificar director." <<endl; 
+					cout << " 3) Modificar genero." <<endl; 
+					cout << " 4) Modificar valoracion." <<endl;
+					cout << " 5) Salir." <<endl;
+					cout << "---------------------" <<endl; 
+					cout << " Ingrese la opcion: " <<endl; 
+					cin>> opcion2; 
+					cin.ignore();
+					if (opcion2 <= 0 || opcion2 >= 6){
+						
+					}else {
+						v2 = true; 
 					}
+				}//Fin del while menu modificar.
+				string titulo = "";
+				if (opcion2 <= 3){
+					cout << "Ingrese el nuevo nombre:" <<endl; 
+					getline(cin, titulo);
+					cine->modificarpeli(indice, opcion2, titulo);
+				}else if (opcion2 == 4){
+					cine->modificarpeli(indice, opcion2, "");
 				}
-				if( matriz != NULL ){
-					delete[] matriz;
-					matriz = 0;
-				}
-				if(matriz){
-					delete[] matriz;
-					matriz = 0;
-				}
-				cout << "-------FINAL EJERCICIO 2------" <<endl; 
+				cout << "-------FINAL MODIFICAR------" <<endl; 
 				break; 
 				}
 			case 3: 
 				{
-				cout << "-------EJERCICIO 3------" <<endl; 
-				int indice = 0;
+				cout << "-------ELIMINAR------" <<endl; 
+				int opcion2 = 0; 
+				cout << "-------TODAS LAS PELICULAS--------" <<endl;
+				cine->imprimirtodas();
 				bool v = false; 
+				int indice = 0; 
 				while (v == false){
-					cout << " Ingrese la cantidad de elementos del arreglo: (entero mayor a 0)" <<endl;
-					cin >> indice;  
-					if (indice <= 0){
-						cout << "Indice ingresado invalido." <<endl; 
+					cout << "---------------------" <<endl; 
+					cout << " Ingrese el indice de la pelicula a eliminar: " <<endl;
+					cin >> indice; 
+					cin.ignore();
+					if (indice < 0 || indice >= cine->GETpeliculas().size()){
+						
 					}else {
 						v = true; 
 					}
-				}//Fin del while.
-				char* arreglo; 
-				arreglo = new char[indice];
-				char caracter;  
-				for (int c =0; c < indice;c++){
-					cout << "Ingrese el caracter para el elemento " << c << ":" <<endl; 
-					cin >> caracter; 
-					arreglo [c] = caracter; 
 				}
-				int filas = 0; 
-				int columnas = 0; 
-				int piedras =0;
-				bool v2 = false; 
-				while (v2 == false){
-					cout << " Ingrese la cantidad de filas: (entero mayor a 0)" <<endl;
-					cin >> filas;  
-					cout << " Ingrese la cantidad de columnas: (entero mayor a 0)" <<endl;
-					cin >> columnas; 
-					cout << " Ingrese la cantidad de obstaculos: (entero mayor a 0)" <<endl;
-					cin >> piedras; 
-					if (filas <= 0 || columnas <= 0 || (piedras > (filas * columnas))){
-						cout << "Valores ingresados invalidos." <<endl; 
-					}else {
-						v2 = true; 
-					}
+				cine->eliminarpeli(indice); 
+				cout << "-------FINAL ELIMINAR------" <<endl; 	
+				break; 
 				}
-				int fila = 0; 
-				int columna = 0;
-				char* arreglo2 = arreglodescomprimido(arreglo, indice);
-				char** matriz = crearmatriz(filas, columnas, piedras);
-				bool v3 = false; 
-				while (v3 == false){
-					cout << " Ingrese la fila para comenzar: (entero mayor a 0)" <<endl;
-					cin >> fila;  
-					cout << " Ingrese la columna para comenzar: (entero mayor a 0)" <<endl;
-					cin >> columna; 
-					if (filas <=  fila || columnas <= columna){
-						cout << "Valores ingresados invalidos." <<endl; 
-					}else {
-						char elem = matriz [fila][columna]; 
-						if (elem == '#'){
-							cout << "Valores ingresados invalidos." <<endl; 
-						}else{
-							v3 = true; 
-						}
-					}
+			case 4:
+				{
+				cout << "-------IMPRIMIR POR GENERO------" <<endl; 	
+				cine->imprimirporgenero();
+				cout << "-------FINAL IMPRIMIR POR GENERO------" <<endl; 	
+				break; 
 				}
-				char** matrizsecuencia = secuencia(arreglo2, matriz, fila, columna, filas, columnas, indice);
-				delete[] arreglo2; 
-				for(int i = 0; i<filas;i++){
-					if(matriz[i]){
-						delete[] matriz[i];
-						matriz[i] = 0; 
-					}
+			case 5:
+				{
+				string n = ""; 
+				cout << "-------IMPRIMIR POR BUSQUEDA------" <<endl; 	
+				cout << "Ingrese la cadena para buscar: " <<endl; 
+				getline(cin, n);
+				cine->imprimirporstring(n);
+				cout << "-------FINAL POR BUSQUEDA------" <<endl; 	
+				break; 
 				}
-				if( matriz != NULL ){
-					delete[] matriz;
-					matriz = 0;
+			case 6:
+				{
+				cout << "-------IMPRIMIR POR VALORACION------" <<endl; 	
+				cine->imprimirporvaloracion();
+				cout << "-------FINAL IMPRIMIR POR VALORACION------" <<endl; 	
+				break; 
 				}
-				if(matriz){
-					delete[] matriz;
-					matriz = 0;
-				}
-				for(int i = 0; i<filas;i++){
-					if(matrizsecuencia[i]){
-						delete[] matrizsecuencia[i];
-						matriz[i] = 0; 
-					}
-				}
-				if( matrizsecuencia != NULL ){
-					delete[] matrizsecuencia;
-					matriz = 0;
-				}
-				if(matrizsecuencia){
-					delete[] matrizsecuencia;
-					matriz = 0;
-				}
-				cout << "-------FINAL EJERCICIO 3------" <<endl; 	
+			case 7:
+				{
+				cout << "-------IMPRIMIR TODAS------" <<endl; 	
+				cine->imprimirtodas();
+				cout << "-------FINAL IMPRIMIR TODAS------" <<endl; 	
 				break; 
 				}
 		}//Fin del switch.
 		cout <<endl; 
 		opcion = menu(); 
 	}//Fin del while.
-	*/ 
+	delete cine;
 	return 0;
 }
 
 int menu(){
 	int opcion = 0; 
-	while (opcion != 4){
+	while (opcion != 8){
 		cout << "--------MENU--------" <<endl;
-		cout << " 1) . "<<endl;
-		cout << " 2) Ejercicio 2. " <<endl; 
-		cout << " 3) Ejercicio 3. " <<endl; 
-		cout << " 4) Salir. " <<endl; 
+		cout << " 1) Agregar pelicula. "<<endl;
+		cout << " 2) Modificar pelicula. " <<endl; 
+		cout << " 3) Eliminar pelicula. " <<endl; 
+		cout << " 4) Imprimir por genero." <<endl; 
+		cout << " 5) Imprimir por busqueda." <<endl; 
+		cout << " 6) Imprimir por valoracion." <<endl;
+		cout << " 7) Imprimir todas." <<endl;  
+		cout << " 8) Salir." <<endl; 
 		cout << "---------------------" <<endl; 
 		cout << " Ingrese la opcion: " <<endl; 
 		cin>> opcion; 
-		if (opcion == 4){
+		cin.ignore();
+		if (opcion == 8){
 			cout << "Ha elegido salir del sistema. " <<endl; 
-		}else if (opcion > 0 && opcion < 4){
+		}else if (opcion > 0 && opcion <= 7){
 			break; 
 		}
 	}

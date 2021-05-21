@@ -2,6 +2,9 @@
 #include <math.h>
 #include <ctime>
 #include <cmath>
+#include <string>
+#include <cstring>
+
 
 Pelicula::Pelicula(){
 
@@ -19,7 +22,7 @@ void Pelicula :: calcularvaloracion(){
 	int val = 0; 
 	while (v == false){
 		srand(time(NULL));
-		int val = 1 + rand() % (4);
+		val = 1 + rand() % (4);
 		if (val >= 1 && val <= 5){
 			v = true; 
 		}
@@ -60,9 +63,10 @@ void Pelicula :: SETvaloracion(int x){
 }
 
 string Pelicula :: tostring(){
-	string n = valoracion+"";
+	string n = to_string(valoracion);
 	return titulo+" | "+director+" | "+genero+" | "+n+""; 
 }
+
 Pelicula::~Pelicula(){
 
 }
