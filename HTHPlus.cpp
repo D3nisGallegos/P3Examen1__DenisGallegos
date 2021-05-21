@@ -2,8 +2,12 @@
 #include <string>
 #include <cstring>
 #include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
 
 using namespace std; 
+
+using std :: string;
 
 HTHPlus::HTHPlus(){
 
@@ -45,7 +49,7 @@ void HTHPlus :: imprimirporgenero(){
 }
 
 void HTHPlus :: imprimirporvaloracion(){
-	for (int c = 5; c <= 0;c--){
+	for (int c = 5; c >= 0;c--){
 		cout << "[valoracion: " << c <<"]"<<endl;  
 		for (int j = 0; j < peliculas.size();j++){
 			Pelicula* peli = peliculas [j];
@@ -57,12 +61,41 @@ void HTHPlus :: imprimirporvaloracion(){
 }
 
 void HTHPlus :: imprimirporstring(string buscar){
-	for (int c = 0; c < 6;c++){
-		Pelicula* peli = peliculas [c];
-		string tit = peli->GETtitulo()+""; 
-		if (tit.find(buscar) == true){
-			cout << peli->tostring() << "/5" <<endl; 
+		int elem = 0; 
+		for (char n : buscar){
+			elem++; 
 		}
+		bool v = false; 
+	for (int c = 0; c < peliculas.size();c++){
+		Pelicula* peli = peliculas [c];
+		string tit = peli->GETtitulo()+"";
+		int indice = 0; 
+		for (char j: tit){
+			indice++;
+		}
+		if (indice >= elem){
+			char* comp1; 
+			comp1 = new char [indice]; 
+			char* comp2; 
+			comp2 = new char [elem];
+			int h = 0;
+			for (char n : tit){
+				comp1 [h] = n;
+				h++;
+			}
+			int b = 0;
+			for (char n : buscar){
+				comp2 [b] = n;
+				b++;
+			}
+			if (strstr(comp1, comp2)){
+				cout << peli->tostring() << "/5" <<endl; 
+				v = true; 
+			}	
+		}
+	}
+	if (v == false){
+		cout << "NO SE ENCONTRARON COINCIDENCIAS." <<endl;
 	}
 }
 
@@ -72,11 +105,17 @@ void HTHPlus :: agregarpeli(Pelicula* pelicula){
 }
 
 void HTHPlus :: eliminarpeli(int indice){
-	for (int c = 0; c < peliculas.size();c++){
+	if (indice == 0){
+		Pelicula* peli = peliculas [0];
+		delete peli; 
+		peliculas.erase(peliculas.begin()+indice);
+	}else {
+		for (int c = 0; c < peliculas.size();c++){
 		Pelicula* peli = peliculas [c];
-		if (c == indice){
-			delete peli; 
-			peliculas.erase(peliculas.begin()+indice - 1);
+			if (c == indice){
+				delete peli; 
+				peliculas.erase(peliculas.begin()+indice - 1);
+			}
 		}
 	}
 }

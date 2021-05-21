@@ -24,7 +24,6 @@ int main(int argc, char** argv) {
 				getline(cin, director);
 				cout << "Ingrese el genero de la pelicula:" <<endl; 
 				getline(cin, genero);
-				cout << genero;
 				Pelicula* peli = new Pelicula(titulo, director, genero);
 				cine->agregarpeli(peli);
 				cout << "-------FINAL AGREGAR------" <<endl; 
